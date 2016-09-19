@@ -1,0 +1,5 @@
+---
+applications:
+- name: scorecard-api
+  memory: 128M
+  command: ruby server.rb
