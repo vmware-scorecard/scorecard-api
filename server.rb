@@ -1,5 +1,10 @@
 require 'sinatra'
 require 'json'
+require 'sinatra/cross_origin'
+
+configure do
+  enable :cross_origin
+end
 
 before do
   content_type 'application/json'
