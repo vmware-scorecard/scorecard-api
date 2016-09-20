@@ -24,6 +24,33 @@ get '/services' do
   }.to_json
 end
 
+get '/categories' do
+  {
+    categories: [
+      {
+        slug: "overall",
+        displayName: "Overall"
+      },
+      {
+        slug: "marketing",
+        displayName: "Marketing"
+      },
+      {
+        slug: "finance",
+        displayName: "Finance"
+      },
+      {
+        slug: "customer",
+        displayName: "Customer"
+      },
+      {
+        slug: "operation",
+        displayName: "Operation"
+      }
+    ]
+  }.to_json
+end
+
 get '/services/:service_slug/categories/:category_slug/scores' do
   category_slug = params['category_slug']
   scores_dictionary = {
