@@ -85,7 +85,7 @@ module Data::Scores
           }
         ]
       },
-      'cloud-discover' => {
+      'cloud-discovery' => {
         'overall' => [
           {
             'date' => '2016-09-26',
