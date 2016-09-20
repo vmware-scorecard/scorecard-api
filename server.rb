@@ -13,23 +13,30 @@ before do
   content_type 'application/json'
 end
 
+service_dictionary = {
+  "hybrid-cloud" => {
+    slug: "hybrid-cloud",
+    displayName: "Hybrid Cloud"
+  },
+  "disaster-recovery" => {
+    slug: "disaster-recovery",
+    displayName: "Disaster Recovery"
+  },
+  "cloud-discovery" => {
+    slug: "cloud-discovery",
+    displayName: "Cloud Discovery"
+  }
+}
+
 get '/services' do
   {
-    services: [
-      {
-        slug: "hybrid-cloud",
-        displayName: "Hybrid Cloud"
-      },
-      {
-        slug: "disaster-recovery",
-        displayName: "Disaster Recovery"
-      },
-      {
-        slug: "cloud-discovery",
-        displayName: "Cloud Discovery"
-      }
-    ]
+    services: service_dictionary.values
   }.to_json
+end
+
+get '/services/:service_slug' do
+  service_slug = params['service_slug']
+  service_dictionary[service_slug].to_json
 end
 
 get '/categories' do
