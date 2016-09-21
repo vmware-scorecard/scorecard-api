@@ -2,8 +2,10 @@ require 'sinatra'
 require 'json'
 require 'sinatra/cross_origin'
 require_relative './data/scores'
+require_relative './data/goals'
 
 include Data::Scores
+include Data::Goals
 
 configure do
   enable :cross_origin
@@ -71,90 +73,15 @@ get '/services/:service_slug/categories/:category_slug/scores' do
   service_slug = params['service_slug']
 
   {
-    scores: scores_dictionary[service_slug][category_slug]
+    scores: scores_dictionary[service_slug][category_slug.to_sym]
   }.to_json
 end
 
 get '/services/:service_slug/categories/:category_slug/goals' do
   category_slug = params['category_slug']
-  goals_dictionary = {
-    'overall' => [
-      {
-        'date' => '2016-09-26',
-        'value' => 80
-      },
-      {
-        'date' => '2016-09-19',
-        'value' => 80
-      },
-      {
-        'date' => '2016-09-12',
-        'value' => 80
-      },
-      {
-        'date' => '2016-09-05',
-        'value' => 80
-      },
-      {
-        'date' => '2016-08-29',
-        'value' => 80
-      },
-      {
-        'date' => '2016-08-22',
-        'value' => 80
-      },
-      {
-        'date' => '2016-08-15',
-        'value' => 80
-      },
-      {
-        'date' => '2016-08-08',
-        'value' => 80
-      },
-      {
-        'date' => '2016-08-01',
-        'value' => 80
-      },
-      {
-        'date' => '2016-07-25',
-        'value' => 80
-      },
-      {
-        'date' => '2016-07-18',
-        'value' => 80
-      },
-      {
-        'date' => '2016-07-11',
-        'value' => 80
-      }
-    ],
-    'marketing' => [
-      {
-        'date' => '2016-09-15',
-        'value' => 95
-      }
-    ],
-    'finance' => [
-      {
-        'date' => '2016-09-15',
-        'value' => 86
-      }
-    ],
-    'customer' => [
-      {
-        'date' => '2016-09-15',
-        'value' => 89
-      }
-    ],
-    'operation' => [
-      {
-        'date' => '2016-09-15',
-        'value' => 76
-      }
-    ],
-  }
+  service_slug = params['service_slug']
 
   {
-    goals: goals_dictionary[category_slug]
+    goals: goals_dictionary[service_slug][category_slug.to_sym]
   }.to_json
 end
