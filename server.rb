@@ -3,6 +3,7 @@ require 'json'
 require 'sinatra/cross_origin'
 require_relative './data/scores'
 require_relative './data/goals'
+require 'date'
 
 include Data::Scores
 include Data::Goals
@@ -29,6 +30,20 @@ service_dictionary = {
     displayName: "Cloud Discovery"
   }
 }
+
+def get_data(dictionary, params)
+  category_slug = params['category_slug']
+  service_slug = params['service_slug']
+  data = dictionary[service_slug][category_slug.to_sym]
+
+  from_date = Date.strptime(params[:from_date], '%Y-%m-%d')
+  to_date = Date.strptime(params[:to_date], '%Y-%m-%d')
+
+  data.select do |d|
+    date = Date.strptime(d[:date], '%Y-%m-%d')
+    from_date <= date && date <= to_date
+  end
+end
 
 get '/services' do
   {
@@ -69,19 +84,13 @@ get '/categories' do
 end
 
 get '/services/:service_slug/categories/:category_slug/scores' do
-  category_slug = params['category_slug']
-  service_slug = params['service_slug']
-
   {
-    scores: scores_dictionary[service_slug][category_slug.to_sym]
+    scores: get_data(scores_dictionary, params)
   }.to_json
 end
 
 get '/services/:service_slug/categories/:category_slug/goals' do
-  category_slug = params['category_slug']
-  service_slug = params['service_slug']
-
   {
-    goals: goals_dictionary[service_slug][category_slug.to_sym]
+    goals: get_data(goals_dictionary, params)
   }.to_json
 end
