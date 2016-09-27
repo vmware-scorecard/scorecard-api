@@ -61,23 +61,28 @@ get '/categories' do
     categories: [
       {
         slug: "overall",
-        displayName: "Overall"
+        displayName: "Overall",
+        color: "#0094d2"
       },
       {
         slug: "marketing",
-        displayName: "Marketing"
+        displayName: "Marketing",
+        color: "#853fb3"
       },
       {
         slug: "finance",
-        displayName: "Finance"
+        displayName: "Finance",
+        color: "#318700"
       },
       {
         slug: "customer",
-        displayName: "Customer"
+        displayName: "Customer",
+        color: "#eb8d00"
       },
       {
         slug: "operation",
-        displayName: "Operation"
+        displayName: "Operation",
+        color: "#c92100"
       }
     ]
   }.to_json
