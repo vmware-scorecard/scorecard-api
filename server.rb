@@ -17,17 +17,17 @@ before do
 end
 
 service_dictionary = {
-  "hybrid-cloud" => {
-    slug: "hybrid-cloud",
-    displayName: "Hybrid Cloud"
+  "cross-cloud" => {
+    slug: "cross-cloud",
+    displayName: "Cross Cloud"
   },
-  "disaster-recovery" => {
-    slug: "disaster-recovery",
-    displayName: "Disaster Recovery"
+  "sddc-aas" => {
+    slug: "sddc-aas",
+    displayName: "SDDC-aaS"
   },
-  "cloud-discovery" => {
-    slug: "cloud-discovery",
-    displayName: "Cloud Discovery"
+  "airwatch" => {
+    slug: "airwatch",
+    displayName: "AirWatch"
   }
 }
 
