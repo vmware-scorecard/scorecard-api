@@ -4,11 +4,13 @@ require 'sinatra/cross_origin'
 require_relative './data/scores'
 require_relative './data/goals'
 require_relative './data/events'
+require_relative './data/metrics'
 require 'date'
 
 include Data::Scores
 include Data::Goals
 include Data::Events
+include Data::Metrics
 
 configure do
   enable :cross_origin
@@ -112,5 +114,13 @@ end
 get '/services/:service_slug/categories/:category_slug/goals' do
   {
     goals: get_data(goals_dictionary, params)
+  }.to_json
+end
+
+get '/services/:service_slug/categories/:category_slug/metrics' do
+  category_slug = params[:category_slug]
+  service_slug = params[:service_slug]
+  {
+    metrics: metrics_dictionary[service_slug][category_slug.to_sym]
   }.to_json
 end
