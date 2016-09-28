@@ -3,10 +3,12 @@ require 'json'
 require 'sinatra/cross_origin'
 require_relative './data/scores'
 require_relative './data/goals'
+require_relative './data/events'
 require 'date'
 
 include Data::Scores
 include Data::Goals
+include Data::Events
 
 configure do
   enable :cross_origin
@@ -36,14 +38,18 @@ def get_data(dictionary, params)
   service_slug = params['service_slug']
   data = dictionary[service_slug][category_slug.to_sym]
 
-  from_date = Date.strptime(params[:from_date], '%Y-%m-%d')
-  to_date = Date.strptime(params[:to_date], '%Y-%m-%d')
+  get_data_for_date(data, params[:from_date], params[:to_date])
+end
 
+def get_data_for_date(data, from_date, to_date)
+  from_date = Date.strptime(from_date, '%Y-%m-%d')
+  to_date = Date.strptime(to_date, '%Y-%m-%d')
   data.select do |d|
     date = Date.strptime(d[:date], '%Y-%m-%d')
     from_date <= date && date <= to_date
   end
 end
+
 
 get '/services' do
   {
@@ -54,6 +60,15 @@ end
 get '/services/:service_slug' do
   service_slug = params['service_slug']
   service_dictionary[service_slug].to_json
+end
+
+get '/services/:service_slug/events' do
+  service_slug = params['service_slug']
+  data = events_dictionary[service_slug]
+
+  {
+    events: get_data_for_date(data, params[:from_date], params[:to_date])
+  }.to_json
 end
 
 get '/categories' do
