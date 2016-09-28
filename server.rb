@@ -35,6 +35,15 @@ service_dictionary = {
   }
 }
 
+def get_metric_data(dictionary, params)
+  metric_slug = params['metric_slug']
+  category_slug = params['category_slug']
+  service_slug = params['service_slug']
+  data = dictionary[service_slug][category_slug.to_sym][metric_slug]
+
+  get_data_for_date(data, params[:from_date], params[:to_date])
+end
+
 def get_data(dictionary, params)
   category_slug = params['category_slug']
   service_slug = params['service_slug']
@@ -122,5 +131,17 @@ get '/services/:service_slug/categories/:category_slug/metrics' do
   service_slug = params[:service_slug]
   {
     metrics: metrics_dictionary[service_slug][category_slug.to_sym]
+  }.to_json
+end
+
+get '/services/:service_slug/categories/:category_slug/metrics/:metric_slug/scores' do
+  {
+    scores: get_metric_data(metric_scores_dictionary, params)
+  }.to_json
+end
+
+get '/services/:service_slug/categories/:category_slug/metrics/:metric_slug/goals' do
+  {
+    goals: get_metric_data(metric_goals_dictionary, params)
   }.to_json
 end
